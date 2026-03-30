@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-light rounded-3">
+    <h1>Welcome to Smieciarka!</h1>
+    <p>Here someones garbage becomes your treasures.</p>
+    <button class="btn btn-primary btn-lg">Place an offer.</button>
+</div>
+
+<div>
+    <ul>
+        {% for offer in offers %}
+            <li>{{ offer.title }} — <b>{{ offer.price }}</b></li>
+        {% else %}
+            <li>Empty rn, bring me your junk!</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
