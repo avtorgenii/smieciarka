@@ -8,7 +8,7 @@ uv sync
 # Run
 Init database, you need to have `.env` for it
 ```dotenv
-DB_NAME=<>
+DB_NAME=smieciarka_db
 DB_USER=<>
 DB_PASSWORD=<>
 ```
