@@ -1,0 +1,31 @@
+<div class="card h-100 shadow-sm">
+    {% if offer.photo_url %}
+    <img src="{{ offer.photo_url }}" class="card-img-top" alt="{{ offer.title }}"
+         style="height: 200px; object-fit: cover;">
+    {% else %}
+    <div class="bg-light text-center py-5 card-img-top" style="height: 200px;">
+        <span class="text-muted">No photo</span>
+    </div>
+    {% endif %}
+
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start">
+            <h5 class="card-title text-truncate" style="max-width: 70%;">{{ offer.title }}</h5>
+            <span class="badge bg-success fs-6">{{ offer.price }} zł</span>
+        </div>
+
+        <p class="card-text text-secondary">
+            {{ offer.description | truncate(100, True, '...') }}
+        </p>
+    </div>
+
+    <div class="card-footer bg-transparent border-top-0">
+        <small class="text-muted">
+            📅 {{ offer.created_at.strftime('%d.%m.%Y %H:%M') if offer.created_at else 'Unknown date' }}
+        </small>
+    </div>
+
+    <div class="card-body pt-0">
+        <a href="/offers/{{ offer.id }}" class="btn btn-outline-primary btn-sm w-100">View Details</a>
+    </div>
+</div>

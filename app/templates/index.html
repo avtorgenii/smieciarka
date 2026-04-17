@@ -10,9 +10,13 @@
 <div>
     <ul>
         {% for offer in offers %}
-            <li>{{ offer.title }} — <b>{{ offer.price }}</b></li>
+        <div class="col">
+            {% include "partials/_offer_card.html" %}
+        </div>
         {% else %}
-            <li>Empty rn, bring me your junk!</li>
+        <div class="col-12 text-center">
+            <p class="lead">No offers found. Be the first to add something!</p>
+        </div>
         {% endfor %}
     </ul>
 </div>
