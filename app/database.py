@@ -7,8 +7,10 @@ load_dotenv()
 user = os.getenv("DB_USER")
 password = os.getenv("DB_PASSWORD")
 db_name = os.getenv("DB_NAME")
+port = os.getenv("DB_PORT", "5432")
+host = os.getenv("DB_HOST", "localhost")
 
-DATABASE_URL = f"postgresql+asyncpg://{user}:{password}@localhost/{db_name}"
+DATABASE_URL = f"postgresql+asyncpg://{user}:{password}@{host}:{port}/{db_name}"
 engine = create_async_engine(DATABASE_URL)
 
 # Connection generator
