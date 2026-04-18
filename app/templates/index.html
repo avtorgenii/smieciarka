@@ -2,22 +2,31 @@
 
 {% block content %}
 <div class="p-5 mb-4 bg-light rounded-3">
-    <h1>Welcome to Smieciarka!</h1>
-    <p>Here someones garbage becomes your treasures.</p>
-    <button class="btn btn-primary btn-lg">Place an offer.</button>
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Welcome to Smieciarka!</h1>
+        <p class="col-md-8 fs-4">Here someone's garbage becomes your treasures.</p>
+
+        <div class="d-flex gap-2">
+            {% if user %}
+                <a href="/offers/create" class="btn btn-primary btn-lg">Place an offer</a>
+                <a href="/auth/logout" class="btn btn-outline-danger btn-lg">Logout</a>
+            {% else %}
+                <a href="/register" class="btn btn-primary btn-lg">Sign Up</a>
+                <a href="/login" class="btn btn-outline-secondary btn-lg">Sign In</a>
+            {% endif %}
+        </div>
+    </div>
 </div>
 
-<div>
-    <ul>
-        {% for offer in offers %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for offer in offers %}
         <div class="col">
             {% include "partials/_offer_card.html" %}
         </div>
-        {% else %}
-        <div class="col-12 text-center">
-            <p class="lead">No offers found. Be the first to add something!</p>
+    {% else %}
+        <div class="col-12 text-center py-5">
+            <p class="lead text-muted">No offers found. Be the first to add something!</p>
         </div>
-        {% endfor %}
-    </ul>
+    {% endfor %}
 </div>
 {% endblock %}

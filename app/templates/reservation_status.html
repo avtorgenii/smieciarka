@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ "Success" if success else "Reservation Failed" }} - Smieciarka
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 text-center">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-5">
+
+                <div class="mb-4">
+                    <span style="font-size: 5rem;">
+                        {{ "✅" if success else "❌" }}
+                    </span>
+                </div>
+
+                <h2 class="fw-bold {{ 'text-success' if success else 'text-danger' }}">
+                    {{ "Success!" if success else "Reservation Failed" }}
+                </h2>
+
+                <p class="lead mb-4">
+                    {% if success %}
+                    The item has been successfully reserved for you. Reservation id is {{ reservation_id }}
+                    Check your profile to see the details and expiry date.
+                    {% else %}
+                    {{ message if message else "Something went wrong. The item might already be reserved." }}
+                    {% endif %}
+                </p>
+
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    {% if success %}
+                    <a href="/" class="btn btn-primary btn-lg px-4 gap-3">Browse more</a>
+                    <a href="/my-reservations" class="btn btn-outline-secondary btn-lg px-4">My Reservations</a>
+                    {% else %}
+                    <a href="/" class="btn btn-secondary btn-lg px-4">Back to Offers</a>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

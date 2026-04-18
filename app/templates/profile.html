@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}My Dashboard - Smieciarka{% endblock %}
+
+{% block content %}
+<div class="container pb-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="fw-bold">My Dashboard</h2>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <span style="font-size: 4rem;">👤</span>
+                    </div>
+                    <h4 class="fw-bold mb-1">{{ user.first_name }} {{ user.last_name }}</h4>
+                    <p class="text-muted mb-3">{{ user.email }}</p>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-primary btn-sm">Edit Profile</button>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush border-top">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total Offers <span class="badge bg-primary rounded-pill">{{ my_offers|length }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Active Reservations <span
+                            class="badge bg-success rounded-pill">{{ my_reservations|length }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold text-primary">My Offers</h5>
+                    <a href="/offers/create" class="btn btn-sm btn-primary">+ New Offer</a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Item</th>
+                                <th>Status</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for offer in my_offers %}
+                            <tr>
+                                <td>
+                                    <div class="fw-bold">{{ offer.title }}</div>
+                                    <small class="text-muted">Added: {{ offer.created_at.strftime('%d %b') }}</small>
+                                </td>
+                                <td>
+                                    {% if offer.is_reserved %}
+                                    <span class="badge bg-warning text-dark">Reserved</span>
+                                    {% else %}
+                                    <span class="badge bg-info text-white">Available</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    <a href="/offers/{{ offer.id }}/edit"
+                                       class="btn btn-sm btn-outline-secondary">Edit</a>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3" class="text-center py-4 text-muted">You haven't posted any offers yet.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold text-success">My Reservations</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Item</th>
+                                <th>Expires</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for res in my_reservations %}
+                            <tr>
+                                <td>
+                                    <div class="fw-bold">{{ res.offer_title }}</div>
+                                    <span class="badge bg-{{ 'success' if res.status == 'ACTIVE' else 'secondary' }} btn-xs">
+                                            {{ res.status }}
+                                        </span>
+                                </td>
+                                <td>{{ res.expiry_date.strftime('%H:%M, %d %b') }}</td>
+                                <td class="text-end">
+                                    <a href="/offers/{{ res.offer_id }}" class="btn btn-sm btn-outline-primary">View</a>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3" class="text-center py-4 text-muted">No active reservations.</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

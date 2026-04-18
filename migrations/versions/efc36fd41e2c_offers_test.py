@@ -86,9 +86,10 @@ def upgrade() -> None:
         """
         CREATE TABLE photos
         (
-            id       SERIAL PRIMARY KEY,
-            offer_id INTEGER NOT NULL REFERENCES offers (id) ON DELETE CASCADE,
-            url      TEXT    NOT NULL
+            id         SERIAL PRIMARY KEY,
+            offer_id   INTEGER NOT NULL REFERENCES offers (id) ON DELETE CASCADE,
+            url        TEXT    NOT NULL,
+            sort_order INTEGER NOT NULL DEFAULT 0
         );
         """,
         # 7. User favorite (marked) offers
@@ -102,14 +103,25 @@ def upgrade() -> None:
         """,
         # 8. Offer reservations
         """
+        CREATE TYPE reservation_status AS ENUM
+        (
+            'ACTIVE',
+            'PENDING',
+            'CANCELED',
+            'EXPIRED',
+            'FULFILLED',
+            'REJECTED'
+        );
+        """,
+        """
         CREATE TABLE reservations
         (
             id          SERIAL PRIMARY KEY,
-            offer_id    INTEGER     NOT NULL REFERENCES offers (id) ON DELETE CASCADE,
-            user_id     INTEGER     NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-            status      VARCHAR(50) NOT NULL DEFAULT 'pending',
-            created_at  TIMESTAMP            DEFAULT NOW(),
-            expiry_date TIMESTAMP
+            offer_id    INTEGER            NOT NULL REFERENCES offers (id) ON DELETE CASCADE,
+            user_id     INTEGER            NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+            status      reservation_status NOT NULL DEFAULT 'ACTIVE',
+            created_at  TIMESTAMP                   DEFAULT NOW(),
+            expiry_date TIMESTAMP                   DEFAULT (NOW() + INTERVAL '1 day')
         );
         """,
         # 9. Offer categories
@@ -145,3 +157,5 @@ def downgrade() -> None:
 
     for table in tables:
         op.execute(sa.text(f"DROP TABLE IF EXISTS {table} CASCADE;"))
+
+    op.execute(sa.text("DROP TYPE IF EXISTS reservation_status;"))

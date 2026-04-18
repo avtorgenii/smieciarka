@@ -1,7 +1,10 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
+
 from . import templates
 from app.routes import api_router
+from .auth import manager
 
 app = FastAPI()
 
@@ -13,10 +16,26 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 
 @app.get("/")
-async def read_root(request: Request):
-    # Передаем request обязательно — это нужно для Jinja
+async def main_page(request: Request, user=Depends(manager.optional)):
+    # Request is required fo Jinja
     return templates.TemplateResponse(
         request=request,
         name="index.html",
-        context={"title": "Śmieciarka"}
+        context={"offers": [], "user": user}
+    )
+
+
+@app.get("/login", response_class=HTMLResponse)
+async def login_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="login.html"
+    )
+
+
+@app.get("/register", response_class=HTMLResponse)
+async def register_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="register.html"
     )
