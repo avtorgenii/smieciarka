@@ -15,6 +15,9 @@ revision:
 migrate:
 	$(ALEMBIC) upgrade head
 
+seed:
+	$(PYTHON) python scripts/seed_offers.py
+
 rollback:
 	$(ALEMBIC) downgrade -1
 
