@@ -11,7 +11,7 @@ from app.routes.auth import manager
 router = APIRouter(prefix="/profile", tags=["profile"])
 
 
-@router.get("/profile")
+@router.get("/")
 async def profile_page(request: Request, user=Depends(manager), db=Depends(get_db)):
     # Fetch user's own offers
     offers_query = text("SELECT id, title, created_at FROM offers WHERE owner_id = :uid")

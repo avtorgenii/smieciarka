@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Welcome to Smieciarka!</h1>
+        <p class="col-md-8 fs-4">Here someone's garbage becomes your treasures.</p>
+
+        <div class="d-flex gap-2">
+            {% if user %}
+            <a href="/offers/create" class="btn btn-primary btn-lg">Place an offer</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for offer in offers %}
+    <div class="col">
+        {% include "partials/_offer_card.html" %}
+    </div>
+    {% else %}
+    <div class="col-12 text-center py-5">
+        <p class="lead text-muted">No offers found. Be the first to add something!</p>
+    </div>
+    {% endfor %}
+</div>
+<nav aria-label="Page navigation" class="mt-5">
+    <ul class="pagination justify-content-center">
+        <li class="page-item {{ 'disabled' if page <= 1 }}">
+            <a class="page-link"
+               href="?page={{ page - 1 }}&size={{ size }}{% if search %}&search={{ search }}{% endif %}{% if category_id %}&category_id={{ category_id }}{% endif %}">
+                Previous
+            </a>
+        </li>
+
+        <li class="page-item active">
+            <span class="page-link">{{ page }}</span>
+        </li>
+
+        <li class="page-item {{ 'disabled' if offers|length < size }}">
+            <a class="page-link"
+               href="?page={{ page + 1 }}&size={{ size }}{% if search %}&search={{ search }}{% endif %}{% if category_id %}&category_id={{ category_id }}{% endif %}">
+                Next
+            </a>
+        </li>
+    </ul>
+</nav>
+
+{% endblock %}

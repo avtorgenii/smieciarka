@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Request, Depends
 from fastapi.responses import HTMLResponse
-from sqlalchemy import text
+from sqlalchemy import text, Row
 from sqlalchemy.ext.asyncio import AsyncConnection
+from app.routes.auth import manager
 
 from app.database import get_db
 from app import templates
@@ -10,12 +11,13 @@ from app import templates
 router = APIRouter(prefix="/offers", tags=["offers"])
 
 
-@router.get("/", response_class=HTMLResponse)
+@router.get("", response_class=HTMLResponse)
 async def search(request: Request,
                  search: str | None = None,
                  category_id: int | None = None,
                  page: int = 1,
                  size: int = 20,
+                 user: Row = Depends(manager.optional),  # User from token in cookies
                  db: AsyncConnection = Depends(get_db)):
     """
     GET /offers?search=Sofa&category_id=5&page=1&size=20
@@ -45,9 +47,9 @@ async def search(request: Request,
                      LEFT JOIN offer_categories oc
                  ON o.id = oc.offer_id
                      LEFT JOIN categories c ON oc.category_id = c.id
-                 WHERE (o.title ILIKE : search
-                    OR c.name ILIKE : search)
-                   AND (:category_id IS NULL
+                 WHERE (o.title ILIKE :search_query
+                    OR c.name ILIKE :search_query)
+                   AND (CAST (:category_id AS INTEGER) IS NULL
                     OR oc.category_id = :category_id)
                  -- Group so there would be only one row per offer
                  GROUP BY o.id
@@ -57,7 +59,7 @@ async def search(request: Request,
                  """)
 
     result = await db.execute(query, {
-        "search": f"%{search}%" if search else "%",
+        "search_query": f"%{search}%" if search else "%",
         "category_id": category_id,
         "limit": sql_limit,
         "offset": sql_offset
@@ -67,6 +69,14 @@ async def search(request: Request,
 
     return templates.TemplateResponse(
         request=request,
-        name="index.html",
-        context={"offers": offers, "page": page, "size": size}
+        name="offers.html",
+        context={
+            "user": user,
+            "offers": offers,
+            "page": page,
+            "size": size,
+            # For pagination
+            "search": search,
+            "category_id": category_id,
+        }
     )

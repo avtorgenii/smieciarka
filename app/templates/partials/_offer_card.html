@@ -26,6 +26,9 @@
     </div>
 
     <div class="card-body pt-0">
-        <a href="/offers/{{ offer.id }}" class="btn btn-outline-primary btn-sm w-100">View Details</a>
+        <a href="/offers/{{ offer.id }}" class="btn btn-outline-primary btn-sm w-100 mb-1">View Details</a>
+        <form action="/reservations/{{ offer.id }}" method="POST">
+            <button type="submit" class="btn btn-primary">Reserve</button>
+        </form>
     </div>
 </div>

@@ -13,6 +13,7 @@
         <div class="navbar-nav ms-auto">
             {% if user %}
             <span class="nav-link text-light me-3">Hello, {{ user.first_name }}!</span>
+            <a class="btn btn-sm btn-outline-light me-3" href="/profile">Profile</a>
             <a class="btn btn-sm btn-outline-light" href="/auth/logout">Logout</a>
             {% else %}
             <a class="nav-link" href="/login">Login</a>

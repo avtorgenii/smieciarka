@@ -1,10 +1,13 @@
 from fastapi import FastAPI, Request, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
+from sqlalchemy import text
 
 from . import templates
 from app.routes import api_router
 from .auth import manager
+from .database import get_db
+from sqlalchemy.ext.asyncio import AsyncConnection
 
 app = FastAPI()
 
@@ -16,12 +19,21 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 
 @app.get("/")
-async def main_page(request: Request, user=Depends(manager.optional)):
+async def main_page(request: Request, user=Depends(manager.optional), db: AsyncConnection = Depends(get_db)):
+    query = text("""
+                 SELECT id, name
+                 FROM categories
+                 """)
+
+    result = await db.execute(query, {})
+
+    categories = result.fetchall()
+
     # Request is required fo Jinja
     return templates.TemplateResponse(
         request=request,
         name="index.html",
-        context={"offers": [], "user": user}
+        context={"categories": categories, "user": user}
     )
 
 

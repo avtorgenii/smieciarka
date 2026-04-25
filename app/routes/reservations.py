@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Request, Depends, HTTPException
-from fastapi.responses import HTMLResponse
 from sqlalchemy import text, Row
 from sqlalchemy.ext.asyncio import AsyncConnection
 
@@ -11,7 +10,7 @@ from app.routes.auth import manager
 router = APIRouter(prefix="/reservations", tags=["reservations"])
 
 
-@router.post("/reservations", status_code=201)
+@router.post("/{offer_id}", status_code=201)
 async def create_reservation(
         request: Request,
         offer_id: int,
@@ -44,16 +43,17 @@ async def create_reservation(
 
     else:
         query = text("""
-                     INSERT INTO reservations (offer_id, user_id, status, created_at)
+                     INSERT INTO reservations (offer_id, user_id, status)
                      VALUES (:offer_id, :user_id, :status)
                      RETURNING id
                      """)
 
         try:
-            result = await db.execute(query, {"offer_id": offer_id})
+            result = await db.execute(query, {"offer_id": offer_id, "user_id": user.id, "status": "PENDING"})
             reservation_id = result.scalar()  # Get id of freshly created reservation
             await db.commit()
-        except Exception:
+        except Exception as e:
+            print(f"Error during reservation: {e}")
             raise HTTPException(status_code=400, detail="Failed to reserve this offer, please try again :()")
 
         return templates.TemplateResponse(

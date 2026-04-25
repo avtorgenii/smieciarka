@@ -9,7 +9,6 @@
         <div class="d-flex gap-2">
             {% if user %}
                 <a href="/offers/create" class="btn btn-primary btn-lg">Place an offer</a>
-                <a href="/auth/logout" class="btn btn-outline-danger btn-lg">Logout</a>
             {% else %}
                 <a href="/register" class="btn btn-primary btn-lg">Sign Up</a>
                 <a href="/login" class="btn btn-outline-secondary btn-lg">Sign In</a>
@@ -19,13 +18,13 @@
 </div>
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
-    {% for offer in offers %}
+    {% for category in categories %}
         <div class="col">
-            {% include "partials/_offer_card.html" %}
+            {% include "partials/_category_card.html" %}
         </div>
     {% else %}
         <div class="col-12 text-center py-5">
-            <p class="lead text-muted">No offers found. Be the first to add something!</p>
+            <p class="lead text-muted">No categories found. Be the first to add something!</p>
         </div>
     {% endfor %}
 </div>
