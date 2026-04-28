@@ -5,7 +5,7 @@ from datetime import timedelta
 from app.database import get_db
 from sqlalchemy import text
 
-SECRET = os.getenv("SECRET_KEY")
+SECRET = os.getenv("SECRET_KEY", "b3braPetrovna1")
 
 # Manages JWT tokens, puts them into cookies and fetch tokens from there to identify user
 manager = LoginManager(SECRET, token_url="/auth/login", default_expiry=timedelta(days=1),

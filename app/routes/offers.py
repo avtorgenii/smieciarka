@@ -43,16 +43,23 @@ async def search(request: Request,
                         -- Take first non-null photo
                         (SELECT url FROM photos WHERE offer_id = o.id ORDER BY sort_order ASC LIMIT 1) as photo_url,
                         STRING_AGG(c.name, ', ') as categories_list -- Glue all categories into single string
-                 FROM offers o
+                 FROM
+                     -- Take all offers that could be reserved
+                     (
+                         SELECT o.id, o.title, o.description, o.price, o.created_at
+                         FROM offers as o LEFT JOIN reservations as r ON o.id = r.offer_id
+                         WHERE r.status IS NULL OR r.status NOT IN ('ACTIVE', 'FULFILLED')
+                     ) as o
                      LEFT JOIN offer_categories oc
                  ON o.id = oc.offer_id
                      LEFT JOIN categories c ON oc.category_id = c.id
                  WHERE (o.title ILIKE :search_query
                     OR c.name ILIKE :search_query)
-                   AND (CAST (:category_id AS INTEGER) IS NULL
+                   AND 
+                     (CAST (:category_id AS INTEGER) IS NULL
                     OR oc.category_id = :category_id)
                  -- Group so there would be only one row per offer
-                 GROUP BY o.id
+                 GROUP BY o.id, o.title, o.price, o.created_at
                  ORDER BY o.created_at DESC
                      LIMIT :limit
                  OFFSET :offset
