@@ -46,16 +46,20 @@ async def search(request: Request,
                  FROM
                      -- Take all offers that could be reserved
                      (
-                         SELECT o.id, o.title, o.description, o.price, o.created_at
-                         FROM offers as o LEFT JOIN reservations as r ON o.id = r.offer_id
-                         WHERE r.status IS NULL OR r.status NOT IN ('ACTIVE', 'FULFILLED')
+                     SELECT o.id, o.title, o.description, o.price, o.created_at
+                     FROM offers o
+                     WHERE NOT EXISTS (
+                             SELECT 1 FROM reservations r
+                             WHERE r.offer_id = o.id
+                             AND r.status IN ('ACTIVE', 'FULFILLED', 'PENDING')
+                     )
                      ) as o
                      LEFT JOIN offer_categories oc
                  ON o.id = oc.offer_id
                      LEFT JOIN categories c ON oc.category_id = c.id
                  WHERE (o.title ILIKE :search_query
                     OR c.name ILIKE :search_query)
-                   AND 
+                   AND
                      (CAST (:category_id AS INTEGER) IS NULL
                     OR oc.category_id = :category_id)
                  -- Group so there would be only one row per offer
