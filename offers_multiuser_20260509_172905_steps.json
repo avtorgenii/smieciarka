@@ -1,0 +1,89 @@
+{
+  "base_url": "http://127.0.0.1:8000",
+  "path": "/offers",
+  "method": "GET",
+  "requests_per_step": 1200,
+  "users": 50,
+  "breakpoint": {
+    "reason": "p95_jump>=2x",
+    "prev": {
+      "concurrency": 20,
+      "rps": 76.98526720137811,
+      "errors": 0,
+      "p50_ms": 202.62594998348504,
+      "p95_ms": 604.0254099527374,
+      "p99_ms": 1048.5863940324634,
+      "users": 50,
+      "out_csv": "offers_multiuser_20260509_172905_c20_20260509_172905.csv",
+      "out_json": "offers_multiuser_20260509_172905_c20_20260509_172905.json"
+    },
+    "step": {
+      "concurrency": 40,
+      "rps": 77.5754160556001,
+      "errors": 0,
+      "p50_ms": 403.24660000624135,
+      "p95_ms": 1279.9502500449305,
+      "p99_ms": 1923.2107919384723,
+      "users": 50,
+      "out_csv": "offers_multiuser_20260509_172905_c40_20260509_172933.csv",
+      "out_json": "offers_multiuser_20260509_172905_c40_20260509_172933.json"
+    }
+  },
+  "steps": [
+    {
+      "concurrency": 20,
+      "rps": 76.98526720137811,
+      "errors": 0,
+      "p50_ms": 202.62594998348504,
+      "p95_ms": 604.0254099527374,
+      "p99_ms": 1048.5863940324634,
+      "users": 50,
+      "out_csv": "offers_multiuser_20260509_172905_c20_20260509_172905.csv",
+      "out_json": "offers_multiuser_20260509_172905_c20_20260509_172905.json"
+    },
+    {
+      "concurrency": 40,
+      "rps": 77.5754160556001,
+      "errors": 0,
+      "p50_ms": 403.24660000624135,
+      "p95_ms": 1279.9502500449305,
+      "p99_ms": 1923.2107919384723,
+      "users": 50,
+      "out_csv": "offers_multiuser_20260509_172905_c40_20260509_172933.csv",
+      "out_json": "offers_multiuser_20260509_172905_c40_20260509_172933.json"
+    },
+    {
+      "concurrency": 80,
+      "rps": 74.22597937355813,
+      "errors": 0,
+      "p50_ms": 872.9253499768674,
+      "p95_ms": 3095.8800800784957,
+      "p99_ms": 4440.319769034394,
+      "users": 50,
+      "out_csv": "offers_multiuser_20260509_172905_c80_20260509_173000.csv",
+      "out_json": "offers_multiuser_20260509_172905_c80_20260509_173000.json"
+    },
+    {
+      "concurrency": 120,
+      "rps": 77.32922289008759,
+      "errors": 0,
+      "p50_ms": 1298.5065500251949,
+      "p95_ms": 4371.318815019911,
+      "p99_ms": 6338.848506000358,
+      "users": 50,
+      "out_csv": "offers_multiuser_20260509_172905_c120_20260509_173028.csv",
+      "out_json": "offers_multiuser_20260509_172905_c120_20260509_173028.json"
+    },
+    {
+      "concurrency": 160,
+      "rps": 81.96470546478487,
+      "errors": 0,
+      "p50_ms": 1665.5774000682868,
+      "p95_ms": 5094.788234983571,
+      "p99_ms": 7789.630186009452,
+      "users": 50,
+      "out_csv": "offers_multiuser_20260509_172905_c160_20260509_173055.csv",
+      "out_json": "offers_multiuser_20260509_172905_c160_20260509_173055.json"
+    }
+  ]
+}

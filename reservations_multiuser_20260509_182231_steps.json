@@ -1,0 +1,78 @@
+{
+  "base_url": "http://127.0.0.1:8000",
+  "path": "/reservations/1",
+  "method": "POST",
+  "requests_per_step": 200,
+  "users": 50,
+  "breakpoint": {
+    "reason": "p95_jump>=2x",
+    "prev": {
+      "concurrency": 40,
+      "rps": 68.72134083810533,
+      "errors": 0,
+      "p50_ms": 330.324649985414,
+      "p95_ms": 1236.5807200141717,
+      "p99_ms": 1355.4231619648633,
+      "users": 50,
+      "out_csv": "reservations_multiuser_20260509_182231_c40_20260509_182401.csv",
+      "out_json": "reservations_multiuser_20260509_182231_c40_20260509_182401.json"
+    },
+    "step": {
+      "concurrency": 80,
+      "rps": 53.566321118114,
+      "errors": 0,
+      "p50_ms": 1161.192250030581,
+      "p95_ms": 2618.8140899699647,
+      "p99_ms": 3447.8508660022626,
+      "users": 50,
+      "out_csv": "reservations_multiuser_20260509_182231_c80_20260509_182443.csv",
+      "out_json": "reservations_multiuser_20260509_182231_c80_20260509_182443.json"
+    }
+  },
+  "steps": [
+    {
+      "concurrency": 10,
+      "rps": 23.60655019469968,
+      "errors": 0,
+      "p50_ms": 266.7184499441646,
+      "p95_ms": 1119.150404958047,
+      "p99_ms": 1554.8495910060592,
+      "users": 50,
+      "out_csv": "reservations_multiuser_20260509_182231_c10_20260509_182231.csv",
+      "out_json": "reservations_multiuser_20260509_182231_c10_20260509_182231.json"
+    },
+    {
+      "concurrency": 20,
+      "rps": 57.66474616323991,
+      "errors": 0,
+      "p50_ms": 164.85634999116883,
+      "p95_ms": 1167.1201800229028,
+      "p99_ms": 1197.1976169967093,
+      "users": 50,
+      "out_csv": "reservations_multiuser_20260509_182231_c20_20260509_182318.csv",
+      "out_json": "reservations_multiuser_20260509_182231_c20_20260509_182318.json"
+    },
+    {
+      "concurrency": 40,
+      "rps": 68.72134083810533,
+      "errors": 0,
+      "p50_ms": 330.324649985414,
+      "p95_ms": 1236.5807200141717,
+      "p99_ms": 1355.4231619648633,
+      "users": 50,
+      "out_csv": "reservations_multiuser_20260509_182231_c40_20260509_182401.csv",
+      "out_json": "reservations_multiuser_20260509_182231_c40_20260509_182401.json"
+    },
+    {
+      "concurrency": 80,
+      "rps": 53.566321118114,
+      "errors": 0,
+      "p50_ms": 1161.192250030581,
+      "p95_ms": 2618.8140899699647,
+      "p99_ms": 3447.8508660022626,
+      "users": 50,
+      "out_csv": "reservations_multiuser_20260509_182231_c80_20260509_182443.csv",
+      "out_json": "reservations_multiuser_20260509_182231_c80_20260509_182443.json"
+    }
+  ]
+}

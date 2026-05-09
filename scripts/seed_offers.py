@@ -157,7 +157,7 @@ async def main() -> None:
         )
 
         # --- Reservations ---
-        statuses = ["ACTIVE", "PENDING", "CANCELED", "EXPIRED", "FULFILLED", "REJECTED"]
+        statuses = ["ACTIVE", "PENDING", "CANCELED", "EXPIRED", "REJECTED"]
         res_rows: list[tuple[int, int, str, datetime, datetime]] = []
         for oid in range(1, offers_count + 1):
             for _ in range(reservations_per_offer):

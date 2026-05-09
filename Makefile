@@ -2,8 +2,12 @@ PYTHON = uv run
 ALEMBIC = $(PYTHON) alembic
 
 # Server and DB
-run-server:
+run-server-dev:
 	uvicorn app.main:app --reload
+
+# Production-like run (no reload, multiple workers)
+run-server:
+	uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers $${WEB_CONCURRENCY:-2}
 run-db:
 	docker compose up -d
 
