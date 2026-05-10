@@ -2,10 +2,10 @@ param(
   [string]$BaseUrl = "http://127.0.0.1:8000",
   [string]$Path = "/offers",
   [string]$Method = "GET",
-  [int]$RequestsPerStep = 1500,
+  [int]$RequestsPerStep = 1000,
   [string]$Concurrency = "100,150,200,250,300,350",
   [string]$OutPrefix = "ramp",
-  [int]$Users = 1
+  [int]$Users = 100
 )
 
 # Optional auth (set as env vars):

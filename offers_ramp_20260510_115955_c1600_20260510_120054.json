@@ -1,0 +1,21 @@
+{
+  "tag": "c=1600",
+  "base_url": "http://127.0.0.1:8000",
+  "path": "/offers",
+  "method": "GET",
+  "requests": 1500,
+  "concurrency": 1600,
+  "users": 100,
+  "auto_register": false,
+  "elapsed_s": 3.4676969000138342,
+  "rps": 432.56375722861355,
+  "ok": 0,
+  "errors": 1500,
+  "latency_ms": {
+    "min": null,
+    "p50": null,
+    "p95": null,
+    "p99": null,
+    "max": null
+  }
+}

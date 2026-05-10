@@ -1,0 +1,34 @@
+{
+  "base_url": "http://127.0.0.1:8000",
+  "path": "/offers",
+  "method": "GET",
+  "requests_per_step": 1500,
+  "users": 100,
+  "breakpoint": {
+    "reason": "errors>0",
+    "step": {
+      "concurrency": 200,
+      "rps": 85.48978221909539,
+      "errors": 1500,
+      "p50_ms": null,
+      "p95_ms": null,
+      "p99_ms": null,
+      "users": 100,
+      "out_csv": "offers_ramp_20260510_120436_c200_20260510_120436.csv",
+      "out_json": "offers_ramp_20260510_120436_c200_20260510_120436.json"
+    }
+  },
+  "steps": [
+    {
+      "concurrency": 200,
+      "rps": 85.48978221909539,
+      "errors": 1500,
+      "p50_ms": null,
+      "p95_ms": null,
+      "p99_ms": null,
+      "users": 100,
+      "out_csv": "offers_ramp_20260510_120436_c200_20260510_120436.csv",
+      "out_json": "offers_ramp_20260510_120436_c200_20260510_120436.json"
+    }
+  ]
+}

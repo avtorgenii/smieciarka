@@ -1,0 +1,56 @@
+{
+  "base_url": "http://127.0.0.1:8000",
+  "path": "/offers",
+  "method": "GET",
+  "requests_per_step": 1500,
+  "users": 100,
+  "breakpoint": {
+    "reason": "errors>0",
+    "step": {
+      "concurrency": 400,
+      "rps": 161.8710113359376,
+      "errors": 1500,
+      "p50_ms": null,
+      "p95_ms": null,
+      "p99_ms": null,
+      "users": 100,
+      "out_csv": "offers_ramp_20260510_115955_c400_20260510_115955.csv",
+      "out_json": "offers_ramp_20260510_115955_c400_20260510_115955.json"
+    }
+  },
+  "steps": [
+    {
+      "concurrency": 400,
+      "rps": 161.8710113359376,
+      "errors": 1500,
+      "p50_ms": null,
+      "p95_ms": null,
+      "p99_ms": null,
+      "users": 100,
+      "out_csv": "offers_ramp_20260510_115955_c400_20260510_115955.csv",
+      "out_json": "offers_ramp_20260510_115955_c400_20260510_115955.json"
+    },
+    {
+      "concurrency": 800,
+      "rps": 277.31381122902,
+      "errors": 1500,
+      "p50_ms": null,
+      "p95_ms": null,
+      "p99_ms": null,
+      "users": 100,
+      "out_csv": "offers_ramp_20260510_115955_c800_20260510_120027.csv",
+      "out_json": "offers_ramp_20260510_115955_c800_20260510_120027.json"
+    },
+    {
+      "concurrency": 1600,
+      "rps": 432.56375722861355,
+      "errors": 1500,
+      "p50_ms": null,
+      "p95_ms": null,
+      "p99_ms": null,
+      "users": 100,
+      "out_csv": "offers_ramp_20260510_115955_c1600_20260510_120054.csv",
+      "out_json": "offers_ramp_20260510_115955_c1600_20260510_120054.json"
+    }
+  ]
+}

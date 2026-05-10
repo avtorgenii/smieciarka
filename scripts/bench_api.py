@@ -102,7 +102,12 @@ async def benchmark(
 
     # Create N independent sessions (each has its own cookies). If login is provided,
     # each session logs in (multiple sessions -> multiple "users" from server PoV).
-    clients: list[httpx.AsyncClient] = [httpx.AsyncClient(base_url=base_url, limits=limits) for _ in range(users)]
+    # IMPORTANT: share one transport across all clients so they share one connection pool.
+    # Without this, `users` *per-client* pools can explode the number of TCP connects and cause ConnectError.
+    transport = httpx.AsyncHTTPTransport(limits=limits)
+    clients: list[httpx.AsyncClient] = [
+        httpx.AsyncClient(base_url=base_url, transport=transport) for _ in range(users)
+    ]
     try:
         if auto_register:
             # Create distinct accounts per session, then each session is already logged in (cookie set).
@@ -135,6 +140,7 @@ async def benchmark(
         elapsed_s = time.perf_counter() - t0
     finally:
         await asyncio.gather(*[c.aclose() for c in clients])
+        await transport.aclose()
 
     lat_ok = sorted([s.latency_ms for s in samples if s.ok])
     ok_count = sum(1 for s in samples if s.ok)
