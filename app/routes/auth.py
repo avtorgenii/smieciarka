@@ -3,7 +3,7 @@ from fastapi.responses import RedirectResponse
 
 from sqlalchemy import text
 from app.auth import hash_password, manager, verify_password
-from app.database import get_db
+from app.database import get_write_db, get_read_db
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -16,7 +16,7 @@ async def register(
         first_name: str = Form(...),
         last_name: str = Form(...),
         phone: str = Form(...),
-        db=Depends(get_db)
+        db=Depends(get_write_db),
 ):
     print(f"DEBUG: Register attempt for {email}, password length: {len(password)}")
 
@@ -60,7 +60,7 @@ async def register(
 async def login(
         email: str = Form(...),
         password: str = Form(...),
-        db=Depends(get_db)
+        db=Depends(get_read_db),
 ):
     # Search user by emails
     query = text("SELECT id, email, password FROM users WHERE email = :email")

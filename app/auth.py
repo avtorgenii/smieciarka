@@ -2,7 +2,7 @@ import bcrypt
 from fastapi_login import LoginManager
 import os
 from datetime import timedelta
-from app.database import get_db
+from app.database import get_write_db, get_read_db
 from sqlalchemy import text
 
 SECRET = os.getenv("SECRET_KEY", "b3braPetrovna1")
@@ -36,7 +36,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 @manager.user_loader()
 async def load_user(user_id: str):
     # TODO: specify which fields of user to fetch
-    async for db in get_db():
+    async for db in get_read_db():
         query = text("SELECT id, email, first_name FROM users WHERE id = :id")
         result = await db.execute(query, {"id": int(user_id)})
         return result.fetchone()

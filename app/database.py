@@ -36,4 +36,4 @@ async def get_read_db():
     random_engine = random.choice([engine_primary, engine_standby])
     async with random_engine.connect() as conn:
         yield conn  # Daje połączenie do routera (replika - port 5434)
-        # Połączenie zamyka się automatycznie po zakończeniu funkcji w routerze
+        # Połączenie zamyka się automatycznie po zakończeniu funkcji w routerzeget_db = get_write_db

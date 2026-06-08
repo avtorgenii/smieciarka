@@ -18,4 +18,6 @@ dependencies = [
     "pytest-asyncio>=1.1.0",
     "sqlalchemy>=2.0.48",
     "uvicorn>=0.42.0",
+    "matplotlib>=3.10.9",
+    "pandas>=3.0.3",
 ]

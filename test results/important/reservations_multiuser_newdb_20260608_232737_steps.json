@@ -1,0 +1,80 @@
+{
+  "base_url": "http://127.0.0.1:8000",
+  "path": "/reservations/1",
+  "method": "POST",
+  "requests_per_step": 200,
+  "users": 50,
+  "breakpoint": {
+    "reason": "plateau_rps<=10%_p95>=50%",
+    "prev": {
+      "concurrency": 20,
+      "rps": 347.27316164696566,
+      "errors": 0,
+      "p50_ms": 46.55194899896742,
+      "p95_ms": 100.94988385244498,
+      "p99_ms": 147.37060149898747,
+      "users": 50,
+      "out_csv": "test results/important/reservations_multiuser_newdb_20260608_232737_c20_20260608_232743.csv",
+      "out_json": "test results/important/reservations_multiuser_newdb_20260608_232737_c20_20260608_232743.json"
+    },
+    "step": {
+      "concurrency": 40,
+      "rps": 288.88809075472585,
+      "errors": 0,
+      "p50_ms": 120.67083600049955,
+      "p95_ms": 198.19367205091112,
+      "p99_ms": 213.69067050654843,
+      "users": 50,
+      "out_csv": "test results/important/reservations_multiuser_newdb_20260608_232737_c40_20260608_232749.csv",
+      "out_json": "test results/important/reservations_multiuser_newdb_20260608_232737_c40_20260608_232749.json"
+    },
+    "p95_growth": 0.9632877670330366,
+    "rps_growth": -0.16812433939710397
+  },
+  "steps": [
+    {
+      "concurrency": 10,
+      "rps": 160.08559123401005,
+      "errors": 0,
+      "p50_ms": 50.82171899994137,
+      "p95_ms": 115.15996910238755,
+      "p99_ms": 123.23559975477109,
+      "users": 50,
+      "out_csv": "test results/important/reservations_multiuser_newdb_20260608_232737_c10_20260608_232737.csv",
+      "out_json": "test results/important/reservations_multiuser_newdb_20260608_232737_c10_20260608_232737.json"
+    },
+    {
+      "concurrency": 20,
+      "rps": 347.27316164696566,
+      "errors": 0,
+      "p50_ms": 46.55194899896742,
+      "p95_ms": 100.94988385244498,
+      "p99_ms": 147.37060149898747,
+      "users": 50,
+      "out_csv": "test results/important/reservations_multiuser_newdb_20260608_232737_c20_20260608_232743.csv",
+      "out_json": "test results/important/reservations_multiuser_newdb_20260608_232737_c20_20260608_232743.json"
+    },
+    {
+      "concurrency": 40,
+      "rps": 288.88809075472585,
+      "errors": 0,
+      "p50_ms": 120.67083600049955,
+      "p95_ms": 198.19367205091112,
+      "p99_ms": 213.69067050654843,
+      "users": 50,
+      "out_csv": "test results/important/reservations_multiuser_newdb_20260608_232737_c40_20260608_232749.csv",
+      "out_json": "test results/important/reservations_multiuser_newdb_20260608_232737_c40_20260608_232749.json"
+    },
+    {
+      "concurrency": 80,
+      "rps": 252.36097127033642,
+      "errors": 1,
+      "p50_ms": 233.15379700216,
+      "p95_ms": 655.3863720990194,
+      "p99_ms": 756.5526184362535,
+      "users": 50,
+      "out_csv": "test results/important/reservations_multiuser_newdb_20260608_232737_c80_20260608_232756.csv",
+      "out_json": "test results/important/reservations_multiuser_newdb_20260608_232737_c80_20260608_232756.json"
+    }
+  ]
+}

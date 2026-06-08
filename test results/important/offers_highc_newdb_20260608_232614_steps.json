@@ -1,0 +1,56 @@
+{
+  "base_url": "http://127.0.0.1:8000",
+  "path": "/offers",
+  "method": "GET",
+  "requests_per_step": 1500,
+  "users": 1,
+  "breakpoint": {
+    "reason": "errors>0",
+    "step": {
+      "concurrency": 800,
+      "rps": 122.44376640609795,
+      "errors": 1,
+      "p50_ms": 4670.357131995843,
+      "p95_ms": 7886.057943204648,
+      "p99_ms": 10178.96098233905,
+      "users": 1,
+      "out_csv": "test results/important/offers_highc_newdb_20260608_232614_c800_20260608_232614.csv",
+      "out_json": "test results/important/offers_highc_newdb_20260608_232614_c800_20260608_232614.json"
+    }
+  },
+  "steps": [
+    {
+      "concurrency": 800,
+      "rps": 122.44376640609795,
+      "errors": 1,
+      "p50_ms": 4670.357131995843,
+      "p95_ms": 7886.057943204648,
+      "p99_ms": 10178.96098233905,
+      "users": 1,
+      "out_csv": "test results/important/offers_highc_newdb_20260608_232614_c800_20260608_232614.csv",
+      "out_json": "test results/important/offers_highc_newdb_20260608_232614_c800_20260608_232614.json"
+    },
+    {
+      "concurrency": 1600,
+      "rps": 186.79660926562752,
+      "errors": 0,
+      "p50_ms": 7133.152056496328,
+      "p95_ms": 7915.431823051404,
+      "p99_ms": 7961.114736209347,
+      "users": 1,
+      "out_csv": "test results/important/offers_highc_newdb_20260608_232614_c1600_20260608_232626.csv",
+      "out_json": "test results/important/offers_highc_newdb_20260608_232614_c1600_20260608_232626.json"
+    },
+    {
+      "concurrency": 3200,
+      "rps": 184.98923351256352,
+      "errors": 0,
+      "p50_ms": 7607.076117499673,
+      "p95_ms": 8043.7304951949045,
+      "p99_ms": 8076.689716584733,
+      "users": 1,
+      "out_csv": "test results/important/offers_highc_newdb_20260608_232614_c3200_20260608_232635.csv",
+      "out_json": "test results/important/offers_highc_newdb_20260608_232614_c3200_20260608_232635.json"
+    }
+  ]
+}

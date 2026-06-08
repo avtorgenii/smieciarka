@@ -1,0 +1,100 @@
+{
+  "base_url": "http://127.0.0.1:8000",
+  "path": "/offers",
+  "method": "GET",
+  "requests_per_step": 1500,
+  "users": 100,
+  "breakpoint": {
+    "reason": "p95_jump>=2x",
+    "prev": {
+      "concurrency": 100,
+      "rps": 197.16292412951736,
+      "errors": 0,
+      "p50_ms": 322.1944805009116,
+      "p95_ms": 1478.459185398605,
+      "p99_ms": 2397.736020728916,
+      "users": 100,
+      "out_csv": "test results/important/offers_ramp_newdb_20260608_232643_c100_20260608_232643.csv",
+      "out_json": "test results/important/offers_ramp_newdb_20260608_232643_c100_20260608_232643.json"
+    },
+    "step": {
+      "concurrency": 200,
+      "rps": 163.78623713191797,
+      "errors": 0,
+      "p50_ms": 582.9462219990091,
+      "p95_ms": 4734.700856848576,
+      "p99_ms": 5908.273486195976,
+      "users": 100,
+      "out_csv": "test results/important/offers_ramp_newdb_20260608_232643_c200_20260608_232650.csv",
+      "out_json": "test results/important/offers_ramp_newdb_20260608_232643_c200_20260608_232650.json"
+    }
+  },
+  "steps": [
+    {
+      "concurrency": 100,
+      "rps": 197.16292412951736,
+      "errors": 0,
+      "p50_ms": 322.1944805009116,
+      "p95_ms": 1478.459185398605,
+      "p99_ms": 2397.736020728916,
+      "users": 100,
+      "out_csv": "test results/important/offers_ramp_newdb_20260608_232643_c100_20260608_232643.csv",
+      "out_json": "test results/important/offers_ramp_newdb_20260608_232643_c100_20260608_232643.json"
+    },
+    {
+      "concurrency": 200,
+      "rps": 163.78623713191797,
+      "errors": 0,
+      "p50_ms": 582.9462219990091,
+      "p95_ms": 4734.700856848576,
+      "p99_ms": 5908.273486195976,
+      "users": 100,
+      "out_csv": "test results/important/offers_ramp_newdb_20260608_232643_c200_20260608_232650.csv",
+      "out_json": "test results/important/offers_ramp_newdb_20260608_232643_c200_20260608_232650.json"
+    },
+    {
+      "concurrency": 400,
+      "rps": 163.40010339119024,
+      "errors": 0,
+      "p50_ms": 1440.2458569966257,
+      "p95_ms": 6176.6087776475615,
+      "p99_ms": 7692.728648550765,
+      "users": 100,
+      "out_csv": "test results/important/offers_ramp_newdb_20260608_232643_c400_20260608_232700.csv",
+      "out_json": "test results/important/offers_ramp_newdb_20260608_232643_c400_20260608_232700.json"
+    },
+    {
+      "concurrency": 800,
+      "rps": 126.87583081237281,
+      "errors": 2,
+      "p50_ms": 5006.23977849682,
+      "p95_ms": 7101.037489902591,
+      "p99_ms": 9222.65686304752,
+      "users": 100,
+      "out_csv": "test results/important/offers_ramp_newdb_20260608_232643_c800_20260608_232709.csv",
+      "out_json": "test results/important/offers_ramp_newdb_20260608_232643_c800_20260608_232709.json"
+    },
+    {
+      "concurrency": 1600,
+      "rps": 185.8761943027866,
+      "errors": 0,
+      "p50_ms": 7303.225464500429,
+      "p95_ms": 7972.675902854098,
+      "p99_ms": 8056.797343083817,
+      "users": 100,
+      "out_csv": "test results/important/offers_ramp_newdb_20260608_232643_c1600_20260608_232721.csv",
+      "out_json": "test results/important/offers_ramp_newdb_20260608_232643_c1600_20260608_232721.json"
+    },
+    {
+      "concurrency": 3200,
+      "rps": 187.06000493867958,
+      "errors": 0,
+      "p50_ms": 7151.084701497894,
+      "p95_ms": 7930.016316102774,
+      "p99_ms": 7992.385342404086,
+      "users": 100,
+      "out_csv": "test results/important/offers_ramp_newdb_20260608_232643_c3200_20260608_232729.csv",
+      "out_json": "test results/important/offers_ramp_newdb_20260608_232643_c3200_20260608_232729.json"
+    }
+  ]
+}
