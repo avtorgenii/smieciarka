@@ -5,6 +5,7 @@ volumes:
   postgres_standby_data:
 
 services:
+  # --- BAZA GŁÓWNA (PRIMARY) ---
   db-primary:
     image: postgres:17
     restart: always
@@ -19,25 +20,40 @@ services:
     mem_limit: 1g
     cpus: 1.5
     pids_limit: 200
-    command: >
-      postgres
-      -c shared_preload_libraries=pg_stat_statements
-      -c shared_buffers=256MB
-      -c work_mem=4MB
-      -c max_connections=50
-      -c wal_level=replica
-      -c max_wal_senders=10
-      -c synchronous_standby_names='*'
+    entrypoint:
+      - bash
+      - -c
+      - |
+        mkdir -p /docker-entrypoint-initdb.d
+        echo 'echo "host replication all all trust" >> "$$PGDATA/pg_hba.conf"' > /docker-entrypoint-initdb.d/setup-replication.sh
+        chmod +x /docker-entrypoint-initdb.d/setup-replication.sh
+        
+        if [ -f /var/lib/postgresql/data/pg_hba.conf ]; then
+          if ! grep -q "host replication all all trust" /var/lib/postgresql/data/pg_hba.conf; then
+            echo "host replication all all trust" >> /var/lib/postgresql/data/pg_hba.conf
+          fi
+        fi
+        
+        exec docker-entrypoint.sh postgres \
+          -c shared_preload_libraries=pg_stat_statements \
+          -c shared_buffers=256MB \
+          -c work_mem=4MB \
+          -c max_connections=50 \
+          -c wal_level=replica \
+          -c max_wal_senders=10 \
+          -c synchronous_standby_names='*'
 
+  # --- REPLIKA SYNCHRONICZNA (STANDBY) ---
   db-standby:
     image: postgres:17
     restart: always
+    user: postgres
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "5434:5432" # Replikę wystawiamy na porcie 5434
+      - "5434:5432"
     volumes:
       - postgres_standby_data:/var/lib/postgresql/data
     mem_limit: 1g
@@ -45,22 +61,23 @@ services:
     pids_limit: 200
     depends_on:
       - db-primary
-    # Tutaj czekamy na główną bazę, klonuje ją i uruchamia replikę
     entrypoint:
       - bash
       - -c
       - |
         set -e
-        until pg_isready -h db-primary -p 5432 -U "$${POSTGRES_USER}"; do
+        until pg_isready -h db-primary -p 5432 -U "$$POSTGRES_USER"; do
           echo "Czekam na uruchomienie bazy głównej..."
           sleep 2
         done
         
-        # Jeśli baza nie była jeszcze sklonowana, zrób backup z Primary
         if [ ! -s /var/lib/postgresql/data/PG_VERSION ]; then
           echo "Klonowanie bazy głównej do repliki (pg_basebackup)..."
-          PGPASSWORD="$${POSTGRES_PASSWORD}" pg_basebackup -h db-primary -D /var/lib/postgresql/data -U "$${POSTGRES_USER}" -v -R -X stream
+          PGPASSWORD="$$POSTGRES_PASSWORD" pg_basebackup -h db-primary -D /var/lib/postgresql/data -U "$$POSTGRES_USER" -v -R -X stream
         fi
+        
+        # POPRAWKA UPRAWNIEŃ: Wymóg bezpieczeństwa Postgresa
+        chmod 700 /var/lib/postgresql/data
         
         echo "Uruchamianie repliki synchronicznej..."
         exec postgres \
