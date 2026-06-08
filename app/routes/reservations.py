@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request, Depends, HTTPException
 from sqlalchemy import text, Row
 from sqlalchemy.ext.asyncio import AsyncConnection
 
-from app.database import get_db
+from app.database import get_write_db
 from app import templates
 from app.routes.auth import manager
 
@@ -15,7 +15,7 @@ async def create_reservation(
         request: Request,
         offer_id: int,
         user: Row = Depends(manager),  # User from token in cookies
-        db: AsyncConnection = Depends(get_db)
+        db: AsyncConnection = Depends(get_write_db)
 ):
     # 3. INSERT INTO reservations (offer_id, user_id, status) ...
 

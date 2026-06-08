@@ -21,7 +21,9 @@ async def main() -> None:
     db_user = _env("DB_USER")
     db_password = _env("DB_PASSWORD")
     db_host = os.getenv("DB_HOST", "localhost")
-    db_port = int(os.getenv("DB_PORT", "5432"))
+
+    db_port = int(os.getenv("DB_PORT", "5433"))
+    db_port_standby = int(os.getenv("DB_PORT_2", "5434"))
 
     users_count = int(os.getenv("SEED_USERS_COUNT", "200"))
     cities_count = int(os.getenv("SEED_CITIES_COUNT", "50"))
@@ -30,6 +32,8 @@ async def main() -> None:
     reservations_per_offer = int(os.getenv("SEED_RES_PER_OFFER", "2"))
     truncate = os.getenv("SEED_TRUNCATE", "1") in ("1", "true", "True", "yes", "YES")
 
+    # Łączymy się do bazy GŁÓWNEJ (Zapis)
+    print(f"Łączenie z bazą główną na porcie {db_port}...")
     conn = await asyncpg.connect(
         user=db_user,
         password=db_password,
@@ -188,6 +192,23 @@ async def main() -> None:
         f"users={users_count}, cities={cities_count}, categories={categories_count}, "
         f"offers={offers_count}, reservations={offers_count * reservations_per_offer}"
     )
+
+    # weryfikacja
+    print(f"\n[TEST] Łączenie z REPLIKĄ na porcie {db_port_standby} w celu weryfikacji...")
+    try:
+        conn_standby = await asyncpg.connect(
+            user=db_user,
+            password=db_password,
+            database=db_name,
+            host=db_host,
+            port=db_port_standby,
+        )
+        # Pobieramy liczbę ofert bezpośrednio z repliki
+        repl_count = await conn_standby.fetchval("SELECT COUNT(*) FROM offers;")
+        print(f" SUKCES REPLIKACJI! Replika potwierdza obecność ofert w bazie. Liczba ofert na replice: {repl_count}")
+        await conn_standby.close()
+    except Exception as e:
+        print(f"❌ Nie udało się zweryfikować repliki: {e}")
 
 
 if __name__ == "__main__":

@@ -1,10 +1,11 @@
 name: smieciarka
 
 volumes:
-  postgres_data:
+  postgres_primary_data:
+  postgres_standby_data:
 
 services:
-  db:
+  db-primary:
     image: postgres:17
     restart: always
     environment:
@@ -14,7 +15,7 @@ services:
     ports:
       - "${DB_PORT:-5433}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_primary_data:/var/lib/postgresql/data
     mem_limit: 1g
     cpus: 1.5
     pids_limit: 200
@@ -24,3 +25,46 @@ services:
       -c shared_buffers=256MB
       -c work_mem=4MB
       -c max_connections=50
+      -c wal_level=replica
+      -c max_wal_senders=10
+      -c synchronous_standby_names='*'
+
+  db-standby:
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5434:5432" # Replikę wystawiamy na porcie 5434
+    volumes:
+      - postgres_standby_data:/var/lib/postgresql/data
+    mem_limit: 1g
+    cpus: 1.5
+    pids_limit: 200
+    depends_on:
+      - db-primary
+    # Tutaj czekamy na główną bazę, klonuje ją i uruchamia replikę
+    entrypoint:
+      - bash
+      - -c
+      - |
+        set -e
+        until pg_isready -h db-primary -p 5432 -U "$${POSTGRES_USER}"; do
+          echo "Czekam na uruchomienie bazy głównej..."
+          sleep 2
+        done
+        
+        # Jeśli baza nie była jeszcze sklonowana, zrób backup z Primary
+        if [ ! -s /var/lib/postgresql/data/PG_VERSION ]; then
+          echo "Klonowanie bazy głównej do repliki (pg_basebackup)..."
+          PGPASSWORD="$${POSTGRES_PASSWORD}" pg_basebackup -h db-primary -D /var/lib/postgresql/data -U "$${POSTGRES_USER}" -v -R -X stream
+        fi
+        
+        echo "Uruchamianie repliki synchronicznej..."
+        exec postgres \
+          -c shared_preload_libraries=pg_stat_statements \
+          -c shared_buffers=256MB \
+          -c work_mem=4MB \
+          -c max_connections=50

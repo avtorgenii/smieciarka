@@ -4,7 +4,7 @@ from sqlalchemy import text, Row
 from sqlalchemy.ext.asyncio import AsyncConnection
 from app.routes.auth import manager
 
-from app.database import get_db
+from app.database import get_read_db
 from app import templates
 
 # Creating router
@@ -18,7 +18,7 @@ async def search(request: Request,
                  page: int = 1,
                  size: int = 20,
                  user: Row = Depends(manager.optional),  # User from token in cookies
-                 db: AsyncConnection = Depends(get_db)):
+                 db: AsyncConnection = Depends(get_read_db)):
     """
     GET /offers?search=Sofa&category_id=5&page=1&size=20
     {
